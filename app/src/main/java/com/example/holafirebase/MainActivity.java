@@ -120,10 +120,27 @@ public class MainActivity extends AppCompatActivity {
   public void onViewClicked() {
     Toast.makeText(this, "Probando boton",Toast.LENGTH_LONG).show();
     Producto producto = new Producto(etName.getText().toString().trim(), etPrice.getText().toString().trim());
-    reference.push().setValue(producto);
+
+
+//    reference.push().setValue(producto);
+    // reference.push().setValue(producto);
+    Producto productoupdate= getProducto(producto.getNombre());
+    if(productoupdate != null){
+      reference.child(productoupdate.getId()).setValue(producto);
+    } else {
+      reference.push().setValue(producto);
+    }
     etName.setText("");
     etPrice.setText("");
 
+  }
+  Producto getProducto(String nombre){
+    for (Producto prod : misdatos) {
+      if (prod.getNombre().equals(nombre)){
+        return prod;
+      }
+    }
+    return null;
   }
 }
 
